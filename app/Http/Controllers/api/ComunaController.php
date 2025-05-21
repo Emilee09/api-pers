@@ -49,7 +49,12 @@ class ComunaController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $comuna = Comuna::find($id);
+        $municipios = DB::table('tb_municipio')
+         ->orderBy('muni_nomb')
+            ->get();
+
+        return json_encode(['comuna' => $comuna, 'municipios' => $municipios]);
     }
 
     /**

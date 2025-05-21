@@ -5,7 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Models\Comuna;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\BD;
+use Illuminate\Support\Facades\DB;
 
 class ComunaController extends Controller
 {
@@ -28,7 +28,20 @@ class ComunaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         $comuna = new Comuna();
+        // $comuna->comu_codi = $request->id;
+        // El código de comuna es auto incremental
+
+        $comuna->comu_nomb = $request->name;
+        $comuna->muni_codi = $request->code;
+        $comuna->save();
+
+        $comunas = DB::table('tb_comuna')
+            ->join('tb_municipio', 'tb_comuna.muni_codi', '=', 'tb_municipio.muni_codi')
+            ->select('tb_comuna.*', 'tb_municipio.muni_nomb')
+            ->get();
+
+        return json_encode( ['comunas' => $comunas]);
     }
 
     /**

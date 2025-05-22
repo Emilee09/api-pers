@@ -44,7 +44,11 @@ class MunicipioController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $municipio = Municipio::find($id);
+        if(is_null($municipio)){
+            return abort(404);
+            
+        }
     }
 
     /**

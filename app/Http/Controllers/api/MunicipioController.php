@@ -68,6 +68,12 @@ class MunicipioController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $municipio = Municipio::find($id);
+        $municipio->delete();
+        $municipio = DB::table('tb_municipio')
+        ->join('tb_departamento', 'tb_municipio.depa_codi', '=', 'tb_departamento.depa_codi')
+        ->select('tb_municipio.*','tb_departamento.depa_codi')
+        ->get();
+        return json_encode(['municipio' => $municipio, 'success' => 'true']);
     }
 }
